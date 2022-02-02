@@ -68,26 +68,26 @@ const productData = [
     {
         img: 'image/product-5.png',
         alt: 'product img',
-        name: 'fresh orange',
-        price: "₹40 Kg",
+        name: 'fresh potato',
+        price: "₹100 Kg",
     },
     {
         img: 'image/product-6.png',
         alt: 'product img',
-        name: 'fresh Onion',
-        price: "₹60 Kg",
+        name: 'fresh avocado',
+        price: "₹90 Kg",
     },
     {
         img: 'image/product-7.png',
         alt: 'product img',
-        name: 'fresh Meat',
-        price: "₹140 Kg",
+        name: 'fresh Carrot',
+        price: "₹120 Kg",
     },
     {
         img: 'image/product-8.png',
         alt: 'product img',
-        name: 'fresh cabbage',
-        price: "₹30 Kg",
+        name: 'fresh sweet lemon',
+        price: "₹50 Kg",
     },
 ]
 
@@ -95,7 +95,7 @@ const productData = [
 function renderProduct(){
     let productHTML = ''
     productData.forEach((element, index) => {
-        const {img, alt, name, price, addkart} = element || {}
+        const {img, alt, name, price} = element || {}
         
         productHTML += `<div class='box'>
                             <img src="${img}" class="img1" alt="${alt}">
