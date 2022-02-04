@@ -95,7 +95,7 @@ const productData = [
         alt: 'product img',
         name: 'fresh sweet lemon',
         price: "₹50 Kg",
-        rating: 3
+        rating: 3.5
     },
 ]
 
@@ -113,7 +113,7 @@ function renderProduct(){
                             <div class="stars" id='star'>
                             ${starts}
                             </div>
-                            <button class="btn" onclick="addToCart(${index})">add to cart</button>
+                            <button class="btn" onclick="addToCart(${element})">add to cart</button>
                         </div>`
     productRating(rating)
     })
@@ -123,26 +123,44 @@ function renderProduct(){
 renderProduct()
 
 function productRating(rating) {
+    
     let starHtml = ""
     for(let i = 0; i < rating; i++){
-        starHtml += `<i class="fas fa-star"></i>` 
+        
+        if(rating[i] > 1){
+            starHtml += `<i class="fas fa-star"></i>` 
+        }else{
+            starHtml += `<i class="fas fa-star-half-alt"></i>` 
+        }
+        
     }
     return starHtml
 }
 
-
-
-function addToCart(index) {
-    let productNumber = localStorage.getItem('itemNumber')
-
-    productNumber = parseInt(productNumber);
+function onLoadCartNumber(){
+    let productNumber = localStorage.getItem('cartNumber')
 
     if(productNumber){
-        localStorage.setItem('cartNumber', productNumber + 1)
-    }else{
-        localStorage.setItem('cartNumber', 1)
+        document.querySelector('#cart-btn').innerText = productNumber;
     }
 }
+
+function addToCart(product) {
+    // console.log(product);
+    debugger
+    let productNumber = localStorage.getItem('cartNumber')
+    productNumber = +productNumber
+    
+    if(productNumber){
+        localStorage.setItem('cartNumber', productNumber + 1)
+        document.querySelector('#cart-btn').innerText = productNumber + 1
+    }else{
+        localStorage.setItem('cartNumber', 1)
+        document.querySelector('#cart-btn').innerText = 1
+    }
+}
+
+onLoadCartNumber()
 
 
 
