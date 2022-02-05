@@ -202,6 +202,16 @@ section{
     color:var(--orange);
 }
 
+.header .shopping-cart .box i{
+    font-size: 1.5rem;
+    cursor: pointer;
+    color:var(--light-color);
+}
+
+.header .shopping-cart .box i:hover{
+    color:var(--orange);
+}
+
 .header .shopping-cart .box .content h3{
     color:var(--black);
     font-size: 1.7rem;

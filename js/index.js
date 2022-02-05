@@ -45,7 +45,7 @@ const productData = [
         img: 'image/product-1.png',
         alt: 'product img',
         name: 'fresh orange',
-        price: "₹40 Kg",
+        price: 40,
         rating: 3,
         inCart: 0
     },
@@ -53,7 +53,7 @@ const productData = [
         img: 'image/product-2.png',
         alt: 'product img',
         name: 'fresh Onion',
-        price: "₹60 Kg",
+        price: 66,
         rating: 4,
         inCart: 0
     },
@@ -61,7 +61,7 @@ const productData = [
         img: 'image/product-3.png',
         alt: 'product img',
         name: 'fresh Meat',
-        price: "₹140 Kg",
+        price: 140,
         rating: 5,
         inCart: 0
     },
@@ -69,7 +69,7 @@ const productData = [
         img: 'image/product-4.png',
         alt: 'product img',
         name: 'fresh cabbage',
-        price: "₹30 Kg",
+        price: 35,
         rating: 3,
         inCart: 0
     },
@@ -77,7 +77,7 @@ const productData = [
         img: 'image/product-5.png',
         alt: 'product img',
         name: 'fresh potato',
-        price: "₹100 Kg",
+        price: 100,
         rating: 4,
         inCart: 0
     },
@@ -85,7 +85,7 @@ const productData = [
         img: 'image/product-6.png',
         alt: 'product img',
         name: 'fresh avocado',
-        price: "₹90 Kg",
+        price: 85,
         rating: 3,
         inCart: 0
     },
@@ -93,7 +93,7 @@ const productData = [
         img: 'image/product-7.png',
         alt: 'product img',
         name: 'fresh Carrot',
-        price: "₹120 Kg",
+        price: 130,
         rating: 4,
         inCart: 0
     },
@@ -101,7 +101,7 @@ const productData = [
         img: 'image/product-8.png',
         alt: 'product img',
         name: 'fresh sweet lemon',
-        price: "₹50 Kg",
+        price: 55,
         rating: 3.5,
         inCart: 0
     },
@@ -114,16 +114,16 @@ function renderProduct(){
         const {img, alt, name, price, rating} = element || {}
         let starts = productRating(rating)
         let stringifiedObj = JSON.stringify(element);
+        
         productHTML += `<div class='box'>
                             <img src="${img}" class="img1" alt="${alt}">
                             <h3>${name}</h3>
-                            <div class="price">${price}</div>
+                            <div class="price">₹${price} Kg</div>
                             <div class="stars" id='star'>
                             ${starts}
                             </div>
                             <button class="btn" onclick='addToCart(${stringifiedObj})'>add to cart</button>
                         </div>`
-    productRating(rating)
     })
     productdiv.innerHTML = productHTML
     
@@ -165,31 +165,71 @@ function addToCart(product) {
     }
 
     setItem(product)
+    totalCost(product)
 }
 
 function setItem(product) {
-    
     let cartItems = localStorage.getItem('productsInCart')
     cartItems = JSON.parse(cartItems)
-
-    console.log(cartItems[product]);
-
-    // if(cartItems != null){
-    //     cartItems[product.name].inCart += 1;
-    // }else{
+    
+    if(cartItems != null){
+        if(cartItems[product.name] == undefined){
+            cartItems = {
+            ...cartItems, [product.name]: product
+            }
+        }
         
-    // }
-
-    product.inCart = 1;
-    cartItems = {
-        [product.name]: product
+        cartItems[product.name].inCart += 1;
+    }else{
+        product.inCart = 1;
+        cartItems = {
+            [product.name]: product
+        }
     }
 
-    
     localStorage.setItem('productsInCart', JSON.stringify(cartItems));
+
+}
+
+function totalCost(product) {
+    let cartCost = localStorage.getItem('totalCost')
+    
+    if(cartCost != null){
+        cartCost = parseInt(cartCost)
+        localStorage.setItem('totalCost', cartCost + product.price)
+    }else{
+        localStorage.setItem('totalCost', product.price)
+    }
+}
+
+function displayCart() {
+    let cartItems = localStorage.getItem('productsInCart');
+    let cartCost = localStorage.getItem('totalCost')
+    cartItems = JSON.parse(cartItems)
+    let productContainer = document.querySelector('#shopping-cart-item')
+    let grantTotal = document.querySelector('#cartTotal')
+
+    if(cartItems && productContainer){
+        let cartHtml = ""
+
+        Object.values(cartItems).map((item, index) => {
+            const {img, alt, name, price, inCart} = item || {}
+            
+            cartHtml += `<div class="box">
+                                <img src="${img}" alt="${alt}">
+                                <div class="content">
+                                <h3 id="cartContent">${name}</h3>
+                                <span id="cartPrice" class="price">${price}/-</span>
+                                <span class="quantity">qty : <span id="cartQuantity">${inCart}</span> </span>
+                            </div>
+                        </div>`
+        })
+        productContainer.innerHTML = cartHtml
+        grantTotal.innerHTML =  `total : ${cartCost}/-`
+    }
 }
 
 onLoadCartNumber()
-
+displayCart()
 
 
