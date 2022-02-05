@@ -211,7 +211,7 @@ function displayCart() {
 
     if(cartItems && productContainer){
         let cartHtml = ""
-
+    
         Object.values(cartItems).map((item, index) => {
             const {img, alt, name, price, inCart} = item || {}
             
