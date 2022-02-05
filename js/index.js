@@ -218,9 +218,9 @@ function displayCart() {
             cartHtml += `<div class="box">
                                 <img src="${img}" alt="${alt}">
                                 <div class="content">
-                                <h3 id="cartContent">${name}</h3>
-                                <span id="cartPrice" class="price">${price}/-</span>
-                                <span class="quantity">qty : <span id="cartQuantity">${inCart}</span> </span>
+                                <h3>${name}</h3>
+                                <span class="price">${price}/-</span>
+                                <span class="quantity">qty : ${inCart} </span>
                             </div>
                         </div>`
         })
