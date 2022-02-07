@@ -10,7 +10,7 @@ document.querySelector('#search-btn').onclick = () =>{
     navbar.classList.remove('active');
 }
 
-document.querySelector('#cart-btn').onclick = () =>{
+document.querySelector('#cart-btn').onmouseover = () =>{
     shoppingCart.classList.toggle('active');
     searchForm.classList.remove('active');
     loginForm.classList.remove('active');
@@ -62,7 +62,7 @@ const productData = [
         alt: 'product img',
         name: 'fresh Meat',
         price: 140,
-        rating: 5,
+        rating: 4.5,
         inCart: 0
     },
     {
@@ -78,7 +78,7 @@ const productData = [
         alt: 'product img',
         name: 'fresh potato',
         price: 100,
-        rating: 4,
+        rating: 3.5,
         inCart: 0
     },
     {
@@ -110,6 +110,7 @@ const productData = [
 
 function renderProduct(){
     let productHTML = ''
+    if(productdiv){
     productData.forEach((element, index) => {
         const {img, alt, name, price, rating} = element || {}
         let starts = productRating(rating)
@@ -126,7 +127,7 @@ function renderProduct(){
                         </div>`
     })
     productdiv.innerHTML = productHTML
-    
+    }
 }
 renderProduct()
 
@@ -147,7 +148,7 @@ function onLoadCartNumber(){
     let productNumber = localStorage.getItem('cartNumber')
 
     if(productNumber){
-        document.querySelector('#cart-btn').innerText = productNumber;
+        document.querySelector('#show-cart-num').innerText = productNumber;
     }
 }
 
@@ -158,10 +159,10 @@ function addToCart(product) {
     
     if(productNumber){
         localStorage.setItem('cartNumber', productNumber + 1)
-        document.querySelector('#cart-btn').innerText = productNumber + 1
+        document.querySelector('#show-cart-num').innerText = productNumber + 1
     }else{
         localStorage.setItem('cartNumber', 1)
-        document.querySelector('#cart-btn').innerText = 1
+        document.querySelector('#show-cart-num').innerText = 1
     }
 
     setItem(product)
@@ -209,7 +210,7 @@ function displayCart() {
     let productContainer = document.querySelector('#shopping-cart-item')
     let grantTotal = document.querySelector('#cartTotal')
 
-    if(cartItems && productContainer){
+    if(cartItems){
         let cartHtml = ""
     
         Object.values(cartItems).map((item, index) => {
