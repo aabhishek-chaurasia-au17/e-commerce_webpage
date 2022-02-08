@@ -1,39 +1,27 @@
 let searchForm = document.querySelector('.search-form');
-let shoppingCart = document.querySelector('.shopping-cart');
 let loginForm = document.querySelector('.login-form');
 let navbar = document.querySelector('.navbar');
 
 document.querySelector('#search-btn').onclick = () =>{
     searchForm.classList.toggle('active');
-    shoppingCart.classList.remove('active');
     loginForm.classList.remove('active'); 
-    navbar.classList.remove('active');
-}
-
-document.querySelector('#cart-btn').onmouseover = () =>{
-    shoppingCart.classList.toggle('active');
-    searchForm.classList.remove('active');
-    loginForm.classList.remove('active');
     navbar.classList.remove('active');
 }
 
 document.querySelector('#login-btn').onclick = () =>{
     loginForm.classList.toggle('active');
     searchForm.classList.remove('active');
-    shoppingCart.classList.remove('active');
     navbar.classList.remove('active');
 }
 
 document.querySelector('#menu-btn').onclick = () =>{
     navbar.classList.toggle('active');
     searchForm.classList.remove('active');
-    shoppingCart.classList.remove('active');
     loginForm.classList.remove('active');
 }
 
 window.onscroll = () =>{
     searchForm.classList.remove('active');
-    shoppingCart.classList.remove('active');
     loginForm.classList.remove('active');
     navbar.classList.remove('active');
 }
@@ -113,16 +101,14 @@ function renderProduct(){
     if(productdiv){
     productData.forEach((element, index) => {
         const {img, alt, name, price, rating} = element || {}
-        let starts = productRating(rating)
+        const stars = productRating(rating)
         let stringifiedObj = JSON.stringify(element);
         
         productHTML += `<div class='box'>
                             <img src="${img}" class="img1" alt="${alt}">
                             <h3>${name}</h3>
                             <div class="price">₹${price} Kg</div>
-                            <div class="stars" id='star'>
-                            ${starts}
-                            </div>
+                            ${stars}
                             <button class="btn" onclick='addToCart(${stringifiedObj})'>add to cart</button>
                         </div>`
     })
@@ -141,7 +127,7 @@ function productRating(rating) {
         starHtml += `<i class="fas fa-star-half-alt"></i>`
     }
     
-    return starHtml
+    return `<div class="stars" id='star'>${starHtml} </div>`
 }
 
 function onLoadCartNumber(){
@@ -189,7 +175,6 @@ function setItem(product) {
     }
 
     localStorage.setItem('productsInCart', JSON.stringify(cartItems));
-
 }
 
 function totalCost(product) {
@@ -205,28 +190,48 @@ function totalCost(product) {
 
 function displayCart() {
     let cartItems = localStorage.getItem('productsInCart');
-    let cartCost = localStorage.getItem('totalCost')
+    const cartCost = localStorage.getItem('totalCost')
     cartItems = JSON.parse(cartItems)
-    let productContainer = document.querySelector('#shopping-cart-item')
-    let grantTotal = document.querySelector('#cartTotal')
+    const productContainer = document.querySelector('#shopping-cart-item')
+    const grantTotal = document.querySelector('#cartTotal')
 
-    if(cartItems){
+    if(cartItems && productContainer){
         let cartHtml = ""
     
-        Object.values(cartItems).map((item, index) => {
+        Object.values(cartItems).map((item) => {
             const {img, alt, name, price, inCart} = item || {}
             
-            cartHtml += `<div class="box">
-                                <img src="${img}" alt="${alt}">
-                                <div class="content">
-                                <h3>${name}</h3>
-                                <span class="price">${price}/-</span>
-                                <span class="quantity">qty : ${inCart} </span>
+            cartHtml += `<div class="card my-2">
+                            <div class="card-body">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-2">
+                                        <img src="${img}" width="100" alt="${alt}">
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <div class="fs-3">${name}</div>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <div class="price fs-3">₹${price} kg/-</div>
+                                    </div>
+                                    <div class="col-2 text-center ">
+                                        <div class="quantity fs-4 d-flex justify-content-evenly align-items-center">
+                                            <div><i class="fas fa-plus-circle"></i> </div>
+                                            <div class="fs-3">qty : ${inCart} </div>
+                                            <div><i class="fas fa-minus-circle"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <div class="fs-3">₹ ${price * inCart}/-</div>
+                                    </div>
+                                    <div class="col-1 fs-4 text-center">
+                                        <i class="fas fa-trash"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>`
-        })
+            })
         productContainer.innerHTML = cartHtml
-        grantTotal.innerHTML =  `total : ${cartCost}/-`
+        grantTotal.innerHTML =  ` <div class="card fs-3  text-center"><div class="card-body">Grand total : ₹${cartCost}/-</div></div>`
     }
 }
 
