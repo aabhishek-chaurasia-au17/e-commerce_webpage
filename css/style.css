@@ -32,6 +32,10 @@ body{
     background:#eee;
 }
 
+a{
+    text-decoration: none;
+}
+
 section{
     padding:2rem 9%;
 }
@@ -112,11 +116,24 @@ section{
     margin-left: .3rem;
     cursor: pointer;
     text-align: center;
+    position: relative;
 }
 
 .header .icons div:hover{
     background: var(--orange);
     color:#fff;
+}
+
+.header .icons span{
+    height:16px;
+    width:16px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    background-color: var(--orange);
+    position: absolute;
+    top: -7px;
+    line-height: 1.8rem;
+    color: #eee;
 }
 
 #menu-btn{
@@ -360,8 +377,6 @@ section{
     padding:1rem 0;
 }
 
-
-
 .categories .box-container .box h3{
     font-size: 2.5rem;
     color:var(--black);
@@ -379,6 +394,9 @@ section{
     padding:.5rem 0;
 }
 
+.cart-top-margin{
+    margin-top: 80px;
+}
 
 .footer{
     background: #fff;
